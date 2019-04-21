@@ -1,2 +1,3 @@
 # auth-graphql-starter
-Starter project from a GraphQL course on Udemy.com - Section 3!
+An authentication web app developed using React & GraphQL
+
