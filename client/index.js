@@ -7,15 +7,14 @@ import { ApolloProvider } from 'react-apollo';
 import { Router, hashHistory, Route, IndexRoute } from 'react-router';
 
 import App from './components/App';
+import LoginForm from './components/LoginForm';
 
-const cache = new InMemoryCache();
 const link = createHttpLink({
   uri: '/graphql',
   credentials: 'same-origin'
 });
 const client = new ApolloClient({
   dataIdFromObject: o => o.id,
-  cache,
   link
 })
 
@@ -24,7 +23,7 @@ const Root = () => {
     <ApolloProvider client={client}>
       <Router history={hashHistory}>
         <Route path="/" component={App}>
-
+          <Route path="/login" component={LoginForm} />
         </Route>
       </Router>
     </ApolloProvider>

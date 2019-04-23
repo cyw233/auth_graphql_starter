@@ -4,7 +4,7 @@ import Header from './Header';
 // No need to use any class level state
 const App = (props) => {
   return (
-    <div>
+    <div className="container">
       <Header />
       {props.children}
     </div>
