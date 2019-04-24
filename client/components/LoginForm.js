@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import AuthForm from './AuthForm';
 import mutation from '../mutations/Login';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import query from '../queries/CurrentUser';
+import { hashHistory } from 'react-router';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -14,11 +15,14 @@ class LoginForm extends Component {
   onSubmit({ email, password }) {
     this.props.mutate({
       variables: { email, password },
-      refetchQueries: [{ query }]
-    }).catch(res => {
-      const errors = res.graphQLErrors.map(error => error.message);
-      this.setState({ errors });
-    });
+      refetchQueries: [{ query }],
+      awaitRefetchQueries: true
+    })
+      .then(() => hashHistory.push('/dashboard'))
+      .catch(res => {
+        const errors = res.graphQLErrors.map(error => error.message);
+        this.setState({ errors });
+      });
   }
 
   render() {
@@ -34,4 +38,6 @@ class LoginForm extends Component {
   }
 }
 
-export default graphql(mutation)(LoginForm);
+export default compose(
+  graphql(query), graphql(mutation)
+)(LoginForm);
